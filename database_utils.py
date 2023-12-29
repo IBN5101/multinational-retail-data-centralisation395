@@ -2,6 +2,7 @@ from yaml import load, Loader
 from sqlalchemy import create_engine, inspect, text
 import pandas as pd
 
+
 class DatabaseConnector:
     def __init__(self, file_location):
         db_creds = self.read_db_creds(file_location)
