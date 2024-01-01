@@ -4,6 +4,7 @@ import pandas as pd
 class DataCleaning:
     @staticmethod
     def clean_user_data(users: pd.DataFrame):
+        users.set_index("index", inplace=True)
         users["date_of_birth"] = pd.to_datetime(
             users["date_of_birth"],
             format="mixed",
@@ -57,6 +58,12 @@ class DataCleaning:
         stores["continent"] = stores["continent"].replace("eeAmerica", "America")
         stores.drop("lat", axis=1, inplace=True)
         stores.dropna(subset=["staff_numbers"], inplace=True)
+
+        stores["staff_numbers"] = pd.to_numeric(
+            stores["staff_numbers"],
+            downcast="integer",
+            errors="coerce"
+        )
 
         return stores
 
@@ -120,6 +127,18 @@ class DataCleaning:
                 return None
         else:
             return float(weight_string) * ratio
+
+    @staticmethod
+    def clean_orders_data(orders: pd.DataFrame):
+        orders.drop(["first_name", "last_name", "1", "level_0"], axis=1, inplace=True)
+        orders.set_index("index", inplace=True)
+        orders["product_quantity"] = pd.to_numeric(
+            orders["product_quantity"],
+            downcast="integer",
+            errors="raise",
+        )
+
+        return orders
 
 
 if __name__ == "__main__":

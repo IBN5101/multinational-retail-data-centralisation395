@@ -40,5 +40,5 @@ class DatabaseConnector:
 
 
 if __name__ == "__main__":
-    dc1 = DatabaseConnector("credentials/local.yaml")
+    dc1 = DatabaseConnector("credentials/db_creds.yaml")
     dc1.list_db_tables()

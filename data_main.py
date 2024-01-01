@@ -33,9 +33,14 @@ if __name__ == "__main__":
     # local_db.upload_to_db(df_stores, "dim_store_details")
 
     #   products
-    df_products = DataExtraction.extract_from_s3("data-handling-public")
-    df_products = DataCleaning.convert_product_weights(df_products)
-    df_products = DataCleaning.clean_products_data(df_products)
-    local_db.upload_to_db(df_products, "dim_products")
+    # df_products = DataExtraction.extract_from_s3("data-handling-public")
+    # df_products = DataCleaning.convert_product_weights(df_products)
+    # df_products = DataCleaning.clean_products_data(df_products)
+    # local_db.upload_to_db(df_products, "dim_products")
+
+    #   orders_table
+    df_orders = DataExtraction.read_rds_table(remote_db, "orders_table")
+    df_orders = DataCleaning.clean_orders_data(df_orders)
+    local_db.upload_to_db(df_orders, "orders_table")
 
     print("Pipeline completed.")
