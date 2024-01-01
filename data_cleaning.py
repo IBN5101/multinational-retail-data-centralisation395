@@ -59,3 +59,72 @@ class DataCleaning:
         stores.dropna(subset=["staff_numbers"], inplace=True)
 
         return stores
+
+    @staticmethod
+    def convert_product_weights(products: pd.DataFrame):
+        products["weight"] = products["weight"].apply(DataCleaning.convert_one_weight)
+        return products
+
+    @staticmethod
+    def clean_products_data(products: pd.DataFrame):
+        products["date_added"] = pd.to_datetime(
+            products["date_added"],
+            format="mixed",
+            errors="coerce",
+        )
+        products.dropna(inplace=True)
+
+        products["product_price"] = products["product_price"].apply(
+            lambda x: x.removeprefix("£")
+        )
+        products["product_price"] = pd.to_numeric(
+            products["product_price"],
+            errors="coerce",
+        )
+        products["EAN"] = pd.to_numeric(
+            products["EAN"],
+            downcast="integer",
+            errors="coerce",
+        )
+        products.dropna(inplace=True)
+
+        return products
+
+    @staticmethod
+    def convert_one_weight(weight_string: str):
+        if not weight_string:
+            return None
+        if type(weight_string) is float:
+            return weight_string
+
+        weight_string = weight_string.strip().lower()
+
+        ratio = 1
+        if "kg" in weight_string[-2:]:
+            weight_string = weight_string.removesuffix("kg")
+        elif "g" in weight_string[-1:]:
+            weight_string = weight_string.removesuffix("g")
+            ratio = 0.001
+        elif "ml" in weight_string[-2:]:
+            weight_string = weight_string.removesuffix("ml")
+            ratio = 0.001
+        else:
+            return None
+
+        if "x" in weight_string:
+            weights = weight_string.split("x")
+            weights = [float(w.strip()) for w in weights]
+            if len(weights) == 2:
+                return weights[0] * weights[1] * ratio
+            else:
+                return None
+        else:
+            return float(weight_string) * ratio
+
+
+if __name__ == "__main__":
+    print(DataCleaning.convert_one_weight("1231.14kg"))
+    print(DataCleaning.convert_one_weight("12031g"))
+    print(DataCleaning.convert_one_weight("3 x 123g"))
+    print(DataCleaning.convert_one_weight("55ml"))
+    print(DataCleaning.convert_one_weight("None"))

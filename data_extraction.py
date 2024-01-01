@@ -3,6 +3,8 @@ import pandas as pd
 import tabula
 import requests
 import json
+import boto3
+from botocore.exceptions import NoCredentialsError, ClientError
 
 
 class DataExtraction:
@@ -44,6 +46,31 @@ class DataExtraction:
 
         return df_stores
 
+    @staticmethod
+    def extract_from_s3(data_path):
+        try:
+            s3 = boto3.client('s3')
+            s3.download_file(
+                data_path,
+                'products.csv',
+                'outputs/products.csv',
+            )
+
+        except NoCredentialsError:
+            print("AWS credentials not found. Please configure your credentials.")
+
+        except ClientError as e:
+            if e.response['Error']['Code'] == 'NoSuchBucket':
+                print("The specified bucket does not exist.")
+            else:
+                print("An error occurred:", e)
+
+        df_products = pd.read_csv("outputs/products.csv")
+        df_products.set_index("Unnamed: 0", inplace=True)
+        df_products.reset_index(drop=True, inplace=True)
+
+        return df_products
+
 
 if __name__ == "__main__":
     # ['legacy_store_details', 'legacy_users', 'orders_table']
@@ -53,8 +80,7 @@ if __name__ == "__main__":
     # )
     # print(df1.info())
 
-    n_stores = DataExtraction.list_number_of_stores(
-        "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores"
-    )
+    products = DataExtraction.extract_from_s3("data-handling-public")
+    print(products.info())
 
     print("data_extraction.py completed.")

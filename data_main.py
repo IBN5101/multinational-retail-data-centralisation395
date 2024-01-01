@@ -9,19 +9,19 @@ if __name__ == "__main__":
     remote_db = DatabaseConnector("credentials/db_creds.yaml")
     local_db = DatabaseConnector("credentials/local.yaml")
 
-    # legacy_users
+    #   legacy_users
     # df_users = DataExtraction.read_rds_table(remote_db, "legacy_users")
     # df_users = DataCleaning.clean_user_data(df_users)
     # local_db.upload_to_db(df_users, "dim_users")
 
-    # card_details
+    #   card_details
     # df_cards = DataExtraction.retrieve_pdf_data(
     #     "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
     # )
     # df_cards = DataCleaning.clean_card_data(df_cards)
     # local_db.upload_to_db(df_cards, "dim_card_details")
 
-    # store_details
+    #   store_details
     # number_of_stores = DataExtraction.list_number_of_stores(
     #     "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores"
     # )
@@ -31,5 +31,11 @@ if __name__ == "__main__":
     # )
     # df_stores = DataCleaning.clean_store_data(df_stores)
     # local_db.upload_to_db(df_stores, "dim_store_details")
+
+    #   products
+    df_products = DataExtraction.extract_from_s3("data-handling-public")
+    df_products = DataCleaning.convert_product_weights(df_products)
+    df_products = DataCleaning.clean_products_data(df_products)
+    local_db.upload_to_db(df_products, "dim_products")
 
     print("Pipeline completed.")
