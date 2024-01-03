@@ -173,6 +173,7 @@ class DataCleaning:
 
 
 if __name__ == "__main__":
+    # Testing
     print(DataCleaning.convert_one_weight("1231.14kg"))
     print(DataCleaning.convert_one_weight("12031g"))
     print(DataCleaning.convert_one_weight("3 x 123g"))
