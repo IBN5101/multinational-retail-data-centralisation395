@@ -1,6 +1,6 @@
 from database_utils import DatabaseConnector
-from data_extraction import DataExtraction
 from data_cleaning import DataCleaning
+from data_extraction import DataExtraction
 import pandas as pd
 
 if __name__ == "__main__":

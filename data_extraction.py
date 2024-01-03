@@ -1,10 +1,10 @@
-from database_utils import DatabaseConnector
-import pandas as pd
-import tabula
-import requests
-import json
-import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
+from database_utils import DatabaseConnector
+import boto3
+import json
+import pandas as pd
+import requests
+import tabula
 
 
 class DataExtraction:
