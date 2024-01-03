@@ -140,6 +140,37 @@ class DataCleaning:
 
         return orders
 
+    @staticmethod
+    def clean_date_times_data(dt: pd.DataFrame):
+        dt = dt.assign(
+            unix_time=dt["day"] + "/" + dt["month"] + "/" + dt["year"] + " " + dt["timestamp"]
+        )
+        dt["unix_time"] = pd.to_datetime(
+            dt["unix_time"],
+            dayfirst=True,
+            errors="coerce",
+        )
+        dt.dropna(inplace=True)
+
+        dt["day"] = pd.to_numeric(
+            dt["day"],
+            downcast="signed",
+            errors="coerce",
+        )
+        dt["month"] = pd.to_numeric(
+            dt["month"],
+            downcast="signed",
+            errors="coerce",
+        )
+        dt["year"] = pd.to_numeric(
+            dt["year"],
+            downcast="signed",
+            errors="coerce",
+        )
+        dt.dropna(inplace=True)
+
+        return dt
+
 
 if __name__ == "__main__":
     print(DataCleaning.convert_one_weight("1231.14kg"))

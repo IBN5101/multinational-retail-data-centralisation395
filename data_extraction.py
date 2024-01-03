@@ -71,6 +71,11 @@ class DataExtraction:
 
         return df_products
 
+    @staticmethod
+    def extract_from_json(data_path):
+        df_datetime = pd.read_json(data_path)
+        return df_datetime
+
 
 if __name__ == "__main__":
     # ['legacy_store_details', 'legacy_users', 'orders_table']
@@ -80,7 +85,10 @@ if __name__ == "__main__":
     # )
     # print(df1.info())
 
-    products = DataExtraction.extract_from_s3("data-handling-public")
-    print(products.info())
+    temp = DataExtraction.extract_from_json(
+        "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
+    )
+    print(temp.head(3))
+    print(temp.info())
 
     print("data_extraction.py completed.")

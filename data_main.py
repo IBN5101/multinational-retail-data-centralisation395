@@ -39,8 +39,15 @@ if __name__ == "__main__":
     # local_db.upload_to_db(df_products, "dim_products")
 
     #   orders_table
-    df_orders = DataExtraction.read_rds_table(remote_db, "orders_table")
-    df_orders = DataCleaning.clean_orders_data(df_orders)
-    local_db.upload_to_db(df_orders, "orders_table")
+    # df_orders = DataExtraction.read_rds_table(remote_db, "orders_table")
+    # df_orders = DataCleaning.clean_orders_data(df_orders)
+    # local_db.upload_to_db(df_orders, "orders_table")
+
+    #   date_times
+    df_dt = DataExtraction.extract_from_json(
+        "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
+    )
+    df_dt = DataCleaning.clean_date_times_data(df_dt)
+    local_db.upload_to_db(df_dt, "dim_date_times")
 
     print("Pipeline completed.")
