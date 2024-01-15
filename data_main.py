@@ -15,11 +15,11 @@ if __name__ == "__main__":
     # local_db.upload_to_db(df_users, "dim_users")
 
     #   card_details
-    # df_cards = DataExtraction.retrieve_pdf_data(
-    #     "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
-    # )
-    # df_cards = DataCleaning.clean_card_data(df_cards)
-    # local_db.upload_to_db(df_cards, "dim_card_details")
+    df_cards = DataExtraction.retrieve_pdf_data(
+        "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
+    )
+    df_cards = DataCleaning.clean_card_data(df_cards)
+    local_db.upload_to_db(df_cards, "dim_card_details")
 
     #   store_details
     # number_of_stores = DataExtraction.list_number_of_stores(
@@ -44,10 +44,10 @@ if __name__ == "__main__":
     # local_db.upload_to_db(df_orders, "orders_table")
 
     #   date_times
-    df_dt = DataExtraction.extract_from_json(
-        "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
-    )
-    df_dt = DataCleaning.clean_date_times_data(df_dt)
-    local_db.upload_to_db(df_dt, "dim_date_times")
+    # df_dt = DataExtraction.extract_from_json(
+    #     "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
+    # )
+    # df_dt = DataCleaning.clean_date_times_data(df_dt)
+    # local_db.upload_to_db(df_dt, "dim_date_times")
 
     print("Pipeline completed.")

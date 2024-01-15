@@ -2,7 +2,7 @@
 
 Project prompt:
 
->You work for a multinational company that sells various goods across the globe.
+> You work for a multinational company that sells various goods across the globe.
 > 
 >Currently, their sales data is spread across many different data sources making it not easily accessible or analysable by current members of the team.
 >
@@ -12,7 +12,7 @@ Project prompt:
 >
 >You will then query the database to get up-to-date metrics for the business.
 
-This project is part of the Ai■■■■ skill bootcamp.
+This project is part of the AiCore skill bootcamp.
 
 ## Installation
 
@@ -20,11 +20,14 @@ To execute the script, please install the latest version of Python and install t
 
 ## Usage
 
-(TBD)
+The file `data_main.py` contains the pipeline to extract, clean and upload the data.
 
 ## File structure
 
-(TBD)
+- `credentials` folder: contains the API keys and information to connect to the remote and local DBs.
+- `data_extraction.py`, `data_cleaning.py`: Python scripts responsible for extracting and cleaning the data.
+- `database_utils.py`: Python script to facilitate connection and read/write to a database.
+- `data_main.py`: Python script of the pipeline.
 
 ## License
 

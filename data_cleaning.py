@@ -21,12 +21,12 @@ class DataCleaning:
 
     @staticmethod
     def clean_card_data(cards: pd.DataFrame):
-        cards["expiry_date"] = pd.to_datetime(
-            cards["expiry_date"],
-            format="%m/%y",
-            exact=True,
-            errors="coerce",
-        )
+        # cards["expiry_date"] = pd.to_datetime(
+        #     cards["expiry_date"],
+        #     format="%m/%y",
+        #     exact=True,
+        #     errors="coerce",
+        # )
         cards["date_payment_confirmed"] = pd.to_datetime(
             cards["date_payment_confirmed"],
             errors="coerce",
@@ -39,6 +39,10 @@ class DataCleaning:
     def clean_store_data(stores: pd.DataFrame):
         stores["longitude"] = pd.to_numeric(
             stores["longitude"],
+            errors="coerce"
+        )
+        stores["lat"] = pd.to_numeric(
+            stores["lat"],
             errors="coerce"
         )
         stores["staff_numbers"] = pd.to_numeric(
@@ -56,7 +60,7 @@ class DataCleaning:
         )
         stores["continent"] = stores["continent"].replace("eeEurope", "Europe")
         stores["continent"] = stores["continent"].replace("eeAmerica", "America")
-        stores.drop("lat", axis=1, inplace=True)
+        # stores.drop("lat", axis=1, inplace=True)
         stores.dropna(subset=["staff_numbers"], inplace=True)
 
         stores["staff_numbers"] = pd.to_numeric(
